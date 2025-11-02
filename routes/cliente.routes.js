@@ -1,4 +1,4 @@
-import {Router} from 'express'
+import { Router } from "express";
 import {
   getCliente,
   clientexCedula,
@@ -7,21 +7,23 @@ import {
   creditoVencido,
   creditoActivo,
   getmoroso,
-  getHistory}
-  from '../controllers/controller.cliente.js'
-const route = Router()
+  getHistory,
+  crearCliente,
+  actualizarCliente,
+  borrarCliente,
+} from "../controllers/controller.cliente.js";
+const route = Router();
 
-route.get('/', getCliente) // Trae a TODOS los clientes
-route.get('/creditovencido', creditoVencido) // Muestra los creditos vencidos <= 0
-route.get('/creditoactive', creditoActivo) // creditos activos
-route.get('/history', getHistory) // Historial de pagos
-route.get('/morosos', getmoroso) // Clientes morosos plazo de dias <= 0
-route.get('/:cedula', clientexCedula) // Cliente por cedula (Busqueda)
-route.get('/:nombre', filtroxNombre) // Cliente por Nombre (Busqueda)
-route.get('/:telefono', filtroxTelefono) // Cliente por telefono (Busqueda)
-// route.post('/', crearCliente)
-// route.put('/:cedula', actualizarCliente)
-// route.delete('/:cedula', borrarCliente)
+route.get("/", getCliente);
+route.get("/creditovencido", creditoVencido);
+route.get("/creditoactive", creditoActivo);
+route.get("/history", getHistory);
+route.get("/morosos", getmoroso);
+route.get("/:cedula", clientexCedula);
+route.get("/:nombre", filtroxNombre);
+route.get("/:telefono", filtroxTelefono);
+route.post("/", crearCliente);
+route.put("/:cedula", actualizarCliente);
+route.delete("/:cedula", borrarCliente);
 
-
-export default route
+export default route;
