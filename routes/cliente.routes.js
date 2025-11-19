@@ -11,6 +11,7 @@ import {
   crearCliente,
   actualizarCliente,
   borrarCliente,
+  creditoxcliente,
 } from "../controllers/controller.cliente.js";
 const route = Router();
 
@@ -19,11 +20,14 @@ route.get("/creditovencido", creditoVencido);
 route.get("/creditoactive", creditoActivo);
 route.get("/history", getHistory);
 route.get("/morosos", getmoroso);
-route.get("/:cedula", clientexCedula);
-route.get("/:nombre", filtroxNombre);
-route.get("/:telefono", filtroxTelefono);
+
+route.get("/cl/:id_cliente", creditoxcliente);
+route.get("/by-cedula/:cedula", clientexCedula);
+route.get("/by-nombre/:nombre", filtroxNombre);
+route.get("/by-telefono/:telefono", filtroxTelefono);
+
 route.post("/", crearCliente);
 route.put("/:cedula", actualizarCliente);
-route.delete("/:cedula", borrarCliente);
+route.delete("/:id_cliente", borrarCliente);
 
 export default route;

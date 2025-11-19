@@ -118,13 +118,24 @@ export const putCl = async (datos) => {
     : null;
 };
 
-export const deletecl = async (data) => {
-  const { id_cliente } = data;
+export const deletecl = async (id_cliente) => {
   const [rows] = await db.query(
     `DELETE FROM cliente
     WHERE id_cliente = ?;
     `,
     [id_cliente]
   );
-  return rows.affectedRows > 0 ? { id_cliente } : null;
+  return rows.affectedRows > 0 ? rows : null;
+};
+
+export const creditoxCl = async (id_cliente) => {
+  const [rows] = await db.query(
+    `
+    SELECT COUNT(*) AS CantidadCredito
+    FROM credito
+    WHERE id_cliente = ?
+    `,
+    [id_cliente]
+  );
+  return rows[0].CantidadCredito;
 };

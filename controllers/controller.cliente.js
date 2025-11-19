@@ -10,6 +10,7 @@ import {
   crearCl,
   putCl,
   deletecl,
+  creditoxCl,
 } from "../models/cliente.model.js";
 
 export const getCliente = async (req, res) => {
@@ -145,11 +146,11 @@ export const actualizarCliente = async (req, res) => {
 
 export const borrarCliente = async (req, res) => {
   try {
-    const { body } = req;
-    const data = await deletecl(body);
+    const { id_cliente } = req.params;
+    const data = await deletecl(id_cliente);
 
-    if (data.length === 0) {
-      res.json("Hubo un error actualizando los datos.");
+    if (data === null) {
+      res.json("Error borrando al cliente");
     }
     res.status(200).json({
       message: "Borrado correctamente",
@@ -157,5 +158,20 @@ export const borrarCliente = async (req, res) => {
     });
   } catch (error) {
     res.status(500).send({ error: error.message });
+  }
+};
+
+export const creditoxcliente = async (req, res) => {
+  try {
+    const { id_cliente } = req.params;
+    const response = await creditoxCl(id_cliente);
+
+    if (!response || response.length === 0) {
+      res.json("Hubo un error en el proceso");
+    }
+
+    res.status(200).send({ message: "Exito", data: response });
+  } catch (error) {
+    res.json(`Error: ${error}`);
   }
 };
