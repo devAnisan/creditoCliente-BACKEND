@@ -132,7 +132,7 @@ export const actualizarCliente = async (req, res) => {
   try {
     const dataPut = req.body;
     const data = await putCl(dataPut);
-    if (data.length === 0) {
+    if (!data) {
       res.json("Hubo un error actualizando los datos.");
     }
     res.status(201).json({
