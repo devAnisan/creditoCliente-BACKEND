@@ -12,6 +12,7 @@ import {
   actualizarCliente,
   borrarCliente,
   creditoxcliente,
+  creditos,
 } from "../controllers/controller.cliente.js";
 const route = Router();
 
@@ -29,5 +30,7 @@ route.get("/by-telefono/:telefono", filtroxTelefono);
 route.post("/", crearCliente);
 route.put("/:cedula", actualizarCliente);
 route.delete("/:id_cliente", borrarCliente);
+
+route.get("/credito/general");
 
 export default route;

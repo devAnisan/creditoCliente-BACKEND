@@ -11,6 +11,7 @@ import {
   putCl,
   deletecl,
   creditoxCl,
+  model_creditos,
 } from "../models/cliente.model.js";
 
 export const getCliente = async (req, res) => {
@@ -173,5 +174,17 @@ export const creditoxcliente = async (req, res) => {
     res.status(200).send({ message: "Exito", data: response });
   } catch (error) {
     res.json(`Error: ${error}`);
+  }
+};
+
+export const creditos = async (req, res) => {
+  try {
+    const resultado = await model_creditos();
+    if (!resultado) return;
+    return res
+      .status(200)
+      .send({ message: "Creditos obtenidos correctamente", data: resultado });
+  } catch (error) {
+    res.json(`Error al obtener los creditos: ${error}`);
   }
 };

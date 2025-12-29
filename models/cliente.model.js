@@ -139,3 +139,11 @@ export const creditoxCl = async (id_cliente) => {
   );
   return rows[0].CantidadCredito;
 };
+
+export const model_creditos = async () => {
+  const [rows] = await db.query(`
+  SELECT *
+  FROM credito
+  `);
+  return rows[0];
+};
