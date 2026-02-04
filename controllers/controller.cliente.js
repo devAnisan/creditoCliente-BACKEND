@@ -116,11 +116,13 @@ export const getHistory = async (req, res) => {
 export const crearCliente = async (req, res) => {
   try {
     const datos = req.body;
+
     const clientepost = await crearCl(datos);
-    if (!clientepost) {
-      res.status(400).send("Hubo un error creando al cliente");
+    if (clientepost.error) {
+      res.status(400).json({ message: "Error" });
     }
     res.status(201).json({
+      code: res.code,
       message: "Usuario creado correctamente",
       data: clientepost,
     });
@@ -151,7 +153,9 @@ export const borrarCliente = async (req, res) => {
     const data = await deletecl(id_cliente);
 
     if (data === null) {
-      res.json("Error borrando al cliente");
+      res.status(404).json({
+        message: "Error borrando al cliente",
+      });
     }
     res.status(200).json({
       message: "Borrado correctamente",
@@ -181,9 +185,7 @@ export const creditos = async (req, res) => {
   try {
     const resultado = await model_creditos();
     if (!resultado) return;
-    return res
-      .status(200)
-      .send({ message: "Creditos obtenidos correctamente", data: resultado });
+    return res.status(200).send({ data: resultado });
   } catch (error) {
     res.json(`Error al obtener los creditos: ${error}`);
   }

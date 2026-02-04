@@ -1,7 +1,7 @@
 import { db } from "../src/config/db.js";
 
 export const obtenerCliente = async () => {
-  const [rows] = await db.query("select * from cliente;");
+  const [rows] = await db.query("select * from Cliente;");
   return rows;
 };
 
@@ -45,13 +45,14 @@ export const clienteCreditoVencido = async () => {
 
 export const cliente_cred_activo = async () => {
   const [rows] = await db.query(`SELECT
-	cl.id_cliente,
+	cl.cedula,
     cl.nombre,
-    c.estado_credito,
-    c.monto_credito,
-    c.monto_restante
-  FROM credito c
-  INNER JOIN cliente cl ON c.id_cliente = cl.id_cliente;`);
+    c.estado,
+    c.montoCredito,
+    c.montoRestante
+  FROM Credito c
+  INNER JOIN Cliente cl ON c.cedula = cl.cedula;
+`);
 
   return rows;
 };
@@ -89,14 +90,14 @@ export const historial_pagos = async () => {
 };
 
 export const crearCl = async (datos) => {
-  const { id_cliente, nombre, telefono, direccion } = datos;
+  const { cedula, nombre, apellido, telefono, email, direccion } = datos;
   const [rows] = await db.query(
     ` INSERT INTO
-        cliente (id_cliente, nombre, telefono, direccion)
+        Cliente (cedula, nombre, apellido, telefono, email, direccion)
       VALUES
-        (?, ?, ?, ?);
+        (?, ?, ?, ?, ?, ?);
     `,
-    [id_cliente, nombre, telefono, direccion]
+    [cedula, nombre, apellido, telefono, email, direccion],
   );
   return rows.affectedRows > 0
     ? { id_cliente: rows.id_cliente, ...rows }
@@ -104,38 +105,38 @@ export const crearCl = async (datos) => {
 };
 
 export const putCl = async (datos) => {
-  const { id_cliente, nombre, telefono, direccion } = datos;
+  const { cedula, nombre, apellido, telefono, email, direccion } = datos;
   const [rows] = await db.query(
     `
-    UPDATE cliente
-    SET nombre = ?, telefono = ?, direccion = ?
-    WHERE id_cliente = ?;
+    UPDATE Cliente
+    SET nombre = ?, apellido = ?, telefono = ?, email = ?, direccion = ?
+    WHERE cedula = ?;
     `,
-    [nombre, telefono, direccion, id_cliente]
+    [nombre, apellido, telefono, email, direccion, cedula],
   );
   return rows.affectedRows > 0
-    ? { id_cliente, nombre, telefono, direccion }
+    ? { nombre, apellido, telefono, email, direccion }
     : null;
 };
 
-export const deletecl = async (id_cliente) => {
+export const deletecl = async (cedula) => {
   const [rows] = await db.query(
-    `DELETE FROM cliente
-    WHERE id_cliente = ?;
+    `DELETE FROM Cliente
+    WHERE cedula = ?;
     `,
-    [id_cliente]
+    [cedula],
   );
   return rows.affectedRows > 0 ? rows : null;
 };
 
-export const creditoxCl = async (id_cliente) => {
+export const creditoxCl = async (cedula) => {
   const [rows] = await db.query(
     `
     SELECT COUNT(*) AS CantidadCredito
-    FROM credito
-    WHERE id_cliente = ?
+    FROM Credito
+    WHERE cedula = ?
     `,
-    [id_cliente]
+    [cedula],
   );
   return rows[0].CantidadCredito;
 };
@@ -143,7 +144,7 @@ export const creditoxCl = async (id_cliente) => {
 export const model_creditos = async () => {
   const [rows] = await db.query(`
   SELECT *
-  FROM credito
+  FROM Credito
   `);
-  return rows[0];
+  return rows;
 };
