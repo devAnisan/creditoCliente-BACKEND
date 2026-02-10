@@ -150,6 +150,8 @@ export const model_creditos = async () => {
 };
 
 export const CrearPago = async (datos) => {
+  console.log(datos);
+  
   const { creditID, fechaPago, montoDePago, metodoPago } = datos;
   const [rows] = await db.query(
     `
@@ -158,5 +160,5 @@ export const CrearPago = async (datos) => {
     `,
     [creditID, fechaPago, montoDePago, metodoPago],
   );
-  return rows.affectedRows > 0 ? { ...datos } : null;
+  return rows.affectedRows > 0 ? rows : null;
 };
