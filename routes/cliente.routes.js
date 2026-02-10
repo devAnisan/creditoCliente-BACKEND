@@ -13,6 +13,7 @@ import {
   borrarCliente,
   creditoxcliente,
   creditos,
+  crearpago,
 } from "../controllers/controller.cliente.js";
 const route = Router();
 
@@ -28,6 +29,7 @@ route.get("/by-nombre/:nombre", filtroxNombre);
 route.get("/by-telefono/:telefono", filtroxTelefono);
 
 route.post("/", crearCliente);
+route.post("/pago", crearpago);
 route.put("/:cedula", actualizarCliente);
 route.delete("/:id_cliente", borrarCliente);
 

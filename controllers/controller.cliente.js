@@ -12,6 +12,7 @@ import {
   deletecl,
   creditoxCl,
   model_creditos,
+  CrearPago,
 } from "../models/cliente.model.js";
 
 export const getCliente = async (req, res) => {
@@ -188,5 +189,22 @@ export const creditos = async (req, res) => {
     return res.status(200).send({ data: resultado });
   } catch (error) {
     res.json(`Error al obtener los creditos: ${error}`);
+  }
+};
+
+export const crearpago = async (req, res) => {
+  try {
+    const datos = req.body;
+    const response = await CrearPago(datos);
+    if (response.error) {
+      res.status(400).json({ message: "Error" });
+    }
+    res.status(201).json({
+      code: res.code,
+      message: "Pago registrado correctamente",
+      data: response,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error });
   }
 };

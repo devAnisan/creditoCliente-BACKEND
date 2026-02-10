@@ -148,3 +148,15 @@ export const model_creditos = async () => {
   `);
   return rows;
 };
+
+export const CrearPago = async (datos) => {
+  const { creditID, fechaPago, montoDePago, metodoPago } = datos;
+  const [rows] = await db.query(
+    `
+    INSERT INTO Pago (creditID, fechaPago, montoDePago, metodoPago)
+    VALUES (?, ?, ?, ?);
+    `,
+    [creditID, fechaPago, montoDePago, metodoPago],
+  );
+  return rows.affectedRows > 0 ? { ...datos } : null;
+};
