@@ -1,7 +1,14 @@
 import { db } from "../src/config/db.js";
 
-export const obtenerCliente = async () => {
-  const [rows] = await db.query("select * from Cliente;");
+export const obtenerCliente = async (uid) => {
+  const [rows] = await db.query(
+    `select Cliente.*
+    from Cliente
+    inner join Usuario
+    on Cliente.usuarioID = Usuario.usuarioID
+    where Usuario.firebase_uid = ?`,
+    [uid],
+  );
   return rows;
 };
 
@@ -151,7 +158,7 @@ export const model_creditos = async () => {
 
 export const CrearPago = async (datos) => {
   console.log(datos);
-  
+
   const { creditID, fechaPago, montoDePago, metodoPago } = datos;
   const [rows] = await db.query(
     `

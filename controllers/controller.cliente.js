@@ -17,7 +17,8 @@ import {
 
 export const getCliente = async (req, res) => {
   try {
-    const clientes = await obtenerCliente();
+    const { uid } = req.params;
+    const clientes = await obtenerCliente(uid);
     res.json(clientes);
   } catch (error) {
     res.status(500).json({ error: "Error" });

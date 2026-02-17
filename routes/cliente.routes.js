@@ -17,7 +17,7 @@ import {
 } from "../controllers/controller.cliente.js";
 const route = Router();
 
-route.get("/", getCliente);
+route.get("/cls/:uid", getCliente);
 route.get("/creditovencido", creditoVencido);
 route.get("/creditoactive", creditoActivo);
 route.get("/history", getHistory);
