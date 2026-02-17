@@ -6,7 +6,6 @@ const app = express();
 app.use(
   cors({
     origin: "https://creditos-management.web.app",
-    origin: "http://localhost:5173",
   }),
 );
 app.use(express.json());
