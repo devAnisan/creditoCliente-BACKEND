@@ -138,7 +138,9 @@ export const actualizarCliente = async (req, res) => {
     const dataPut = req.body;
     const data = await putCl(dataPut);
     if (!data) {
-      res.json("Hubo un error actualizando los datos.");
+      return res
+        .status(400)
+        .json({ message: "Hubo un error actualizando los datos." });
     }
     res.status(201).json({
       message: "Actualizado correctamente",
@@ -155,7 +157,7 @@ export const borrarCliente = async (req, res) => {
     const data = await deletecl(id_cliente);
 
     if (data === null) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "Error borrando al cliente",
       });
     }
@@ -174,12 +176,12 @@ export const creditoxcliente = async (req, res) => {
     const response = await creditoxCl(id_cliente);
 
     if (!response || response.length === 0) {
-      res.json("Hubo un error en el proceso");
+      return res.status(400).json({ message: "Hubo un error en el proceso" });
     }
 
     res.status(200).send({ message: "Exito", data: response });
   } catch (error) {
-    res.json(`Error: ${error}`);
+    return res.json(`Error: ${error}`);
   }
 };
 
@@ -189,7 +191,7 @@ export const creditos = async (req, res) => {
     if (!resultado) return;
     return res.status(200).send({ data: resultado });
   } catch (error) {
-    res.json(`Error al obtener los creditos: ${error}`);
+    return res.json(`Error al obtener los creditos: ${error}`);
   }
 };
 
@@ -198,9 +200,9 @@ export const crearpago = async (req, res) => {
     const datos = req.body;
     const response = await CrearPago(datos);
     if (response.error) {
-      res.status(400).json({ message: "Error" });
+      return res.status(400).json({ message: "Error al registrar el pago" });
     }
-    res.status(201).json({
+    return res.status(201).json({
       code: res.code,
       message: "Pago registrado correctamente",
       data: response,
