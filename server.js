@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const PORT = process.env.SERVERPORT || 3000;
+const PORT = process.env.DB_PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto: ${PORT}`);
