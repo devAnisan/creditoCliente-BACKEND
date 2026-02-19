@@ -19,9 +19,9 @@ export const getCliente = async (req, res) => {
   try {
     const { uid } = req.params;
     const clientes = await obtenerCliente(uid);
-    res.json(clientes);
+    return res.json(clientes);
   } catch (error) {
-    res.status(500).json({ error: "Error" });
+    return res.status(500).json({ error: "Error" });
   }
 };
 
@@ -30,11 +30,11 @@ export const clientexCedula = async (req, res) => {
     const { cedula } = req.params;
     const cliente = await clientecedula(cedula);
     if (cliente.length == 0) {
-      res.status(404).json({ error: "Cliente no encontrado" });
+      return res.status(404).json({ error: "Cliente no encontrado" });
     }
     res.json(cliente);
   } catch (error) {
-    res.status(500).json({ error: "Error " });
+    return res.status(500).json({ error: "Error " });
   }
 };
 
@@ -43,14 +43,14 @@ export const filtroxTelefono = async (req, res) => {
     const { telefono } = req.params;
     const cliente = await clienteTelefono(telefono);
     if (cliente.length == 0) {
-      res.status(404).json({
+      return res.status(404).json({
         error: "No se encuentra el cliente por este número telefonico",
       });
     }
 
     res.json(cliente);
   } catch (error) {
-    res.status(500).json({ error: error });
+    return res.status(500).json({ error: error });
   }
 };
 
@@ -173,15 +173,17 @@ export const borrarCliente = async (req, res) => {
 export const creditoxcliente = async (req, res) => {
   try {
     const { id_cliente } = req.params;
-    const response = await creditoxCl(id_cliente);
+    const cantidad = await creditoxCl(id_cliente);
 
-    if (!response || response.length === 0) {
-      return res.status(400).json({ message: "Hubo un error en el proceso" });
-    }
-
-    res.status(200).send({ message: "Exito", data: response });
+    return res.status(200).json({
+      message: "Exito",
+      cantidadCredito: cantidad,
+    });
   } catch (error) {
-    return res.json(`Error: ${error}`);
+    return res.status(500).json({
+      message: "Error interno",
+      error: error.message,
+    });
   }
 };
 
