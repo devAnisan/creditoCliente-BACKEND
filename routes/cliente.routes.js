@@ -14,6 +14,7 @@ import {
   creditoxcliente,
   creditos,
   crearpago,
+  userID,
 } from "../controllers/controller.cliente.js";
 const route = Router();
 
@@ -22,7 +23,7 @@ route.get("/creditovencido", creditoVencido);
 route.get("/creditoactive", creditoActivo);
 route.get("/history", getHistory);
 route.get("/morosos", getmoroso);
-
+route.get("/id/:userId", userID);
 route.get("/cl/:id_cliente", creditoxcliente);
 route.get("/by-cedula/:cedula", clientexCedula);
 route.get("/by-nombre/:nombre", filtroxNombre);

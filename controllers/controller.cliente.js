@@ -13,6 +13,7 @@ import {
   creditoxCl,
   model_creditos,
   CrearPago,
+  getUserID,
 } from "../models/cliente.model.js";
 
 export const getCliente = async (req, res) => {
@@ -121,15 +122,17 @@ export const crearCliente = async (req, res) => {
 
     const clientepost = await crearCl(datos);
     if (clientepost.error) {
-      res.status(400).json({ message: "Error" });
+      return res
+        .status(400)
+        .json({ message: "Error al crear cliente", error: clientepost.error });
     }
-    res.status(201).json({
+    return res.status(201).json({
       code: res.code,
       message: "Usuario creado correctamente",
       data: clientepost,
     });
   } catch (error) {
-    res.status(500).send({ error: error });
+    return res.status(500).send({ error: error });
   }
 };
 
@@ -207,6 +210,19 @@ export const crearpago = async (req, res) => {
     return res.status(201).json({
       code: res.code,
       message: "Pago registrado correctamente",
+      data: response,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+};
+
+export const userID = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const response = await getUserID(userId);
+    return res.status(200).json({
+      message: "Exito",
       data: response,
     });
   } catch (error) {

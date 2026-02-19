@@ -97,14 +97,15 @@ export const historial_pagos = async () => {
 };
 
 export const crearCl = async (datos) => {
-  const { cedula, nombre, apellido, telefono, email, direccion } = datos;
+  const { cedula, nombre, usuarioID, apellido, telefono, email, direccion } =
+    datos;
   const [rows] = await db.query(
     ` INSERT INTO
-        Cliente (cedula, nombre, apellido, telefono, email, direccion)
+        Cliente (cedula, nombre, apellido, telefono, email, direccion, usuarioID)
       VALUES
-        (?, ?, ?, ?, ?, ?);
+        (?, ?, ?, ?, ?, ?, ?);
     `,
-    [cedula, nombre, apellido, telefono, email, direccion],
+    [cedula, nombre, apellido, telefono, email, direccion, usuarioID],
   );
   return rows.affectedRows > 0
     ? { id_cliente: rows.id_cliente, ...rows }
@@ -168,4 +169,12 @@ export const CrearPago = async (datos) => {
     [creditID, fechaPago, montoDePago, metodoPago],
   );
   return rows.affectedRows > 0 ? rows : null;
+};
+
+export const getUserID = async (uid) => {
+  const [rows] = await db.query(
+    `SELECT usuarioID FROM Usuario WHERE firebase_uid = ?`,
+    [uid],
+  );
+  return rows.length > 0 ? rows[0].usuarioID : null;
 };
