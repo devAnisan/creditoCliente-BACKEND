@@ -154,11 +154,15 @@ export const creditoxCl = async (cedula) => {
   return rows[0].CantidadCredito;
 };
 
-export const model_creditos = async () => {
-  const [rows] = await db.query(`
+export const model_creditos = async (usuarioID) => {
+  const [rows] = await db.query(
+    `
   SELECT *
   FROM Credito
-  `);
+  WHERE usuarioID = ?;
+  `,
+    [usuarioID],
+  );
   return rows;
 };
 

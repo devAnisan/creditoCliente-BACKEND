@@ -34,6 +34,6 @@ route.post("/pago", crearpago);
 route.put("/:cedula", actualizarCliente);
 route.delete("/:id_cliente", borrarCliente);
 
-route.get("/credito/general", creditos);
+route.get("/credito/general/:usuarioID", creditos);
 
 export default route;

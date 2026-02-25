@@ -193,7 +193,8 @@ export const creditoxcliente = async (req, res) => {
 
 export const creditos = async (req, res) => {
   try {
-    const resultado = await model_creditos();
+    const { usuarioID } = req.body;
+    const resultado = await model_creditos(usuarioID);
     if (!resultado) return;
     return res.status(200).send({ data: resultado });
   } catch (error) {
