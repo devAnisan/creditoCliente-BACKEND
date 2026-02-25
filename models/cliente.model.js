@@ -50,16 +50,21 @@ export const clienteCreditoVencido = async () => {
   return rows;
 };
 
-export const cliente_cred_activo = async () => {
-  const [rows] = await db.query(`SELECT
+export const cliente_cred_activo = async (userId) => {
+  const { usuarioID } = userId;
+  const [rows] = await db.query(
+    `SELECT
 	cl.cedula,
     cl.nombre,
     c.estado,
     c.montoCredito,
     c.montoRestante
   FROM Credito c
-  INNER JOIN Cliente cl ON c.cedula = cl.cedula;
-`);
+  INNER JOIN Cliente cl ON c.cedula = cl.cedula
+  Where c.usuarioID = ?;
+`,
+    [usuarioID],
+  );
 
   return rows;
 };

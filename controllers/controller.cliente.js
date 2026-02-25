@@ -82,7 +82,8 @@ export const creditoVencido = async (req, res) => {
 };
 export const creditoActivo = async (req, res) => {
   try {
-    const cliente = await cliente_cred_activo();
+    const { datos } = req.body;
+    const cliente = await cliente_cred_activo(datos);
     if (cliente.length === 0) {
       res.status(500).json({ error: "Error con encontrar los datos" });
     }
